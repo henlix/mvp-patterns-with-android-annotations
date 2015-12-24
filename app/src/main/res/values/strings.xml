@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Annotations</string>
+    <string name="button_label">Click to Query Version :D</string>
+</resources>

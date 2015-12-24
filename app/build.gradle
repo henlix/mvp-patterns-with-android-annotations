@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+def android_annotations_version = '3.3.2'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    }
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        resourcePackageName 'org.sopt.annotations'
+    }
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "org.sopt.annotations"
+        minSdkVersion 10
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+
+    apt "org.androidannotations:androidannotations:$android_annotations_version"
+    compile "org.androidannotations:androidannotations-api:$android_annotations_version"
+}
